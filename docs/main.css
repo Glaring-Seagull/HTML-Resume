@@ -40,11 +40,11 @@
   }
   
   .left {
-    height: 1000px;
+    height: 1500px;
     width: 45px;
     background-color: #e0eeee;
     float: left;
-    position: fixed;
+    position: inherit;
   }
   
   .right {
@@ -100,12 +100,13 @@
     text-decoration: none;
   }
   
-  @media only screen and (max-width: 430px) {
+  @media only screen and (max-width: 600px) {
     .left,
     .right {
       display: none;
     }
     .stuff {
+      background: #e0eeee;
       width: 100%;
       margin-left: 10px;
     }
