@@ -40,7 +40,7 @@
   }
   
   .left {
-    height: 1000px;
+    height: 1500px;
     width: 45px;
     background-color: #e0eeee;
     float: left;
@@ -48,13 +48,12 @@
   }
   
   .right {
-    height: 1000px;
+    height: 1500px;
     width: 45px;
     background-color: #e0eeee;
     float: right;
     position: inherit;
   }
-  
   .stuff {
     display: inline-block;
     margin-top: 6px;
