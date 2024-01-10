@@ -39,22 +39,6 @@
     bottom: 0;
   }
   
-  .left {
-    height: 1500px;
-    width: 45px;
-    background-color: #e0eeee;
-    float: left;
-    position: inherit;
-  }
-  
-  .right {
-    height: 1500px;
-    width: 45px;
-    background-color: #e0eeee;
-    float: right;
-    position: inherit;
-  }
-  
   .stuff {
     display: inline-block;
     margin-top: 6px;
