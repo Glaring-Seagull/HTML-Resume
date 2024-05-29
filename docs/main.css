@@ -19,6 +19,7 @@
     list-style-type: circle;
   }
   #header {
+    min-height: 35px;
     height: 4%;
     width: 100%;
     background-color: #0ecccc;
