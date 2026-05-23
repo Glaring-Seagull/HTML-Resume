@@ -4,23 +4,35 @@ from googleapiclient.discovery import build
 from google.oauth2.service_account import Credentials
 from google.auth.transport.requests import Request
 import io
+import json  # Add this import at the top of your file!
 
 # --- Configuration ---
-SERVICE_ACCOUNT_FILE = os.environ.get("SERVICE_ACCOUNT_JSON_PATH")
+# Update this variable name to reflect it's the raw JSON text now
+RAW_SERVICE_ACCOUNT_JSON = os.environ.get("GOOGLE_SERVICE_ACCOUNT_JSON")
 SPREADSHEET_ID = os.environ.get("GOOGLE_DOC_FILE_ID")
 OUTPUT_HTML_PATH = "docs/index.html"
 
 def get_drive_service():
     """Authenticates and returns the Google Drive service object."""
-    if not SERVICE_ACCOUNT_FILE or not SPREADSHEET_ID:
-        raise ValueError("Missing required environment variables: SERVICE_ACCOUNT_JSON_PATH or GOOGLE_DOC_FILE_ID.")
+    if not RAW_SERVICE_ACCOUNT_JSON or not SPREADSHEET_ID:
+        raise ValueError("Missing required environment variables: GOOGLE_SERVICE_ACCOUNT_JSON or GOOGLE_DOC_FILE_ID.")
 
-    creds = None
-    # Assume credentials file is available from the environment
     try:
-        creds = Credentials.from_service_account_file(SERVICE_ACCOUNT_FILE, scopes=['https://www.googleapis.com/auth/drive.metadata.readonly', 'https://www.googleapis.com/auth/documents.readonly'])
-    except FileNotFoundError:
-        raise FileNotFoundError(f"Credentials file not found at: {SERVICE_ACCOUNT_FILE}")
+        # Parse the raw string directly into a Python dictionary
+        info = json.loads(RAW_SERVICE_ACCOUNT_JSON)
+        
+        # Use from_service_account_info instead of from_service_account_file
+        creds = Credentials.from_service_account_info(
+            info, 
+            scopes=[
+                'https://www.googleapis.com/auth/drive.metadata.readonly', 
+                'https://www.googleapis.com/auth/documents.readonly'
+            ]
+        )
+    except json.JSONDecodeError:
+        raise ValueError("GOOGLE_SERVICE_ACCOUNT_JSON environment variable is not valid JSON.")
+    except Exception as e:
+        raise RuntimeError(f"Failed to load credentials: {e}")
 
     service = build('drive', 'v3', credentials=creds)
     return service
