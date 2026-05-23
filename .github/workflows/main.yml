@@ -35,8 +35,8 @@ jobs:
         # Install Google API client libraries
         pip install google-api-python-client google-auth-httplib2 google-auth-oauthlib
         # Install Pandoc and necessary build tools to handle potential permission errors
-        apt-get update
-        apt-get install -y pandoc build-essential
+        sudo apt-get update
+        sudo apt-get install -y pandoc build-essential
 
     - name: Generate Resume HTML
       run: python generate_resume.py
