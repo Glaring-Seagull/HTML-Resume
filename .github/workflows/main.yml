@@ -18,7 +18,7 @@ jobs:
     
     # Define environment variables using GitHub Secrets
     env:
-      SERVICE_ACCOUNT_JSON_PATH: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON_KEY }}
+      GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
       GOOGLE_DOC_FILE_ID: ${{ secrets.GOOGLE_DOC_FILE_ID }}
 
     steps:
