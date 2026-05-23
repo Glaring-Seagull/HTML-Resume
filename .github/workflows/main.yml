@@ -1,0 +1,60 @@
+name: Automated Resume Generation
+
+on:
+  # Trigger on a specific schedule (e.g., first day of every month at 3 AM UTC)
+  schedule:
+    - cron: '0 0 1 * *' 
+  workflow_dispatch: # Allows manual triggering for testing
+    inputs:
+      trigger:
+        description: 'Manual run trigger'
+        required: true
+        type: boolean
+  # Add other triggers if needed, e.g., push to main
+
+jobs:
+  generate_resume:
+    runs-on: ubuntu-latest
+    
+    # Define environment variables using GitHub Secrets
+    env:
+      SERVICE_ACCOUNT_JSON_PATH: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON_KEY }}
+      GOOGLE_DOC_FILE_ID: ${{ secrets.GOOGLE_DOC_FILE_ID }}
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.x'
+
+    - name: Install Dependencies
+      run: |
+        # Install Google API client libraries
+        pip install google-api-python-client google-auth-httplib2 google-auth-oauthlib
+        # Ensure Pandoc is available on the runner machine
+        apt-get update && apt-get install -y pandoc
+
+    - name: Generate Resume HTML
+      run: python generate_resume.py
+      
+    - name: Upload and Confirm Resume
+      run: |
+        # This step confirms the file existence and ensures it's committed back
+        # We check for the existence of the generated file
+        if [ -f "docs/index.html" ]; then
+            echo "Successfully generated and updated docs/index.html."
+            # Optionally, commit the file back to the repository
+            git add docs/index.html
+            git commit -m "Automated resume update from Google Doc" || echo "No changes detected, skipping commit."
+        else
+            echo "Error: docs/index.html was not generated. Check the logs."
+            exit 1
+        fi
+
+    - name: Build Artifacts (Optional - for deployment)
+      # If you are deploying this resume, you might include steps here to
+      # build a site or deploy the updated index.html
+      run: echo "Deployment steps would go here."
