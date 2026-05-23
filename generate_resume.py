@@ -3,7 +3,6 @@ import subprocess
 from googleapiclient.discovery import build
 from google.oauth2.credentials import Credentials
 from google.auth.transport.requests import Request
-from google_auth_oauthlib.v2gafa import InstalledAppFlow
 import io
 
 # --- Configuration ---
