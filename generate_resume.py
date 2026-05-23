@@ -1,7 +1,7 @@
 import os
 import subprocess
 from googleapiclient.discovery import build
-from google.oauth2.credentials import Credentials
+from google.oauth2.service_account import Credentials
 from google.auth.transport.requests import Request
 import io
 
@@ -18,9 +18,7 @@ def get_drive_service():
     creds = None
     # Assume credentials file is available from the environment
     try:
-        creds = Credentials.from_service_account_file(
-            SERVICE_ACCOUNT_FILE, scopes=['https://www.googleapis.com/auth/drive.metadata.readonly', 'https://www.googleapis.com/auth/documents.readonly']
-        )
+        creds = Credentials.from_service_account_file(SERVICE_ACCOUNT_FILE, scopes=['https://www.googleapis.com/auth/drive.metadata.readonly', 'https://www.googleapis.com/auth/documents.readonly'])
     except FileNotFoundError:
         raise FileNotFoundError(f"Credentials file not found at: {SERVICE_ACCOUNT_FILE}")
 
