@@ -40,21 +40,25 @@ jobs:
     - name: Generate Resume HTML
       run: python generate_resume.py
       
-    - name: Upload and Confirm Resume
+    - name: Commit and Create Pull Request
       run: |
-        # This step confirms the file existence and ensures it's committed back
-        # We check for the existence of the generated file
-        if [ -f "docs/index.html" ]; then
-            echo "Successfully generated and updated docs/index.html."
-            # Optionally, commit the file back to the repository
-            git add docs/index.html
-            git commit -m "Automated resume update from Google Doc" || echo "No changes detected, skipping commit."
-        else
-            echo "Error: docs/index.html was not generated. Check the logs."
+        if [ ! -f "docs/index.html" ]; then
+            echo "Error: docs/index.html was not generated. Cannot create PR."
             exit 1
         fi
 
-    - name: Build Artifacts (Optional - for deployment)
-      # If you are deploying this resume, you might include steps here to
-      # build a site or deploy the updated index.html
-      run: echo "Deployment steps would go here."
+        # Check if the generated file content differs from the last committed version
+        if git diff --exit-code docs/index.html; then
+            echo "docs/index.html has not changed. Skipping commit and PR creation."
+        else
+            echo "docs/index.html has changed. Creating branch, committing, and opening PR."
+            # 1. Create a temporary branch for the changes
+            git checkout -b automated-resume-update-${{ github.run_id }}
+            
+            # 2. Add and commit the updated file
+            git add docs/index.html
+            git commit -m "Automated resume update from Google Doc"
+
+            # 3. Push the changes to the remote and create a PR
+            git push origin HEAD:automated-resume-update-${{ github.run_id }}
+            gh pr create --title "Automated Resume Update" --body "Automated update of the resume from the Google Doc via cron schedule." --web
