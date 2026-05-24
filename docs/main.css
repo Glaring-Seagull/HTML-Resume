@@ -13,14 +13,14 @@
 html {
   background-color: var(--bg);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  font-size: 15px;
+  font-size: 14px;
   line-height: 1.5;
   color: var(--text);
 }
 
 body {
   margin: 2rem auto;
-  max-width: 50rem;
+  max-width: 48rem;
   background: #ffffff;
   padding: 3rem;
   box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05);
@@ -32,7 +32,7 @@ body {
    ========================================================================== */
 body > p:first-of-type {
   text-align: center !important;
-  font-size: 2rem !important;
+  font-size: 2.2rem !important;
   font-weight: 800 !important;
   color: var(--primary) !important;
   margin-bottom: 0.25rem !important;
@@ -44,8 +44,8 @@ body > p:first-of-type + p {
   color: var(--secondary) !important;
   font-size: 0.95rem !important;
   border-bottom: 2px solid var(--primary) !important;
-  padding-bottom: 1.5rem !important;
-  margin-bottom: 2rem !important;
+  padding-bottom: 1.25rem !important;
+  margin-bottom: 1.5rem !important;
 }
 
 body > p:first-of-type + p a {
@@ -54,31 +54,73 @@ body > p:first-of-type + p a {
   margin: 0 0.5rem;
 }
 
-body > p:first-of-type + p a:hover {
-  text-decoration: underline;
+/* ==========================================================================
+   Typography & Sections
+   ========================================================================== */
+
+/* Main Category Headers (Summary, Skills, etc.) */
+.section-header {
+  font-size: 1.15rem !important;
+  font-weight: 700 !important;
+  color: var(--primary) !important;
+  border-bottom: 1px solid var(--primary) !important;
+  margin-top: 1.75rem !important;
+  margin-bottom: 0.5rem !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  padding-bottom: 0.2rem;
+}
+
+/* Base Body Font Settings */
+p, li {
+  font-size: 0.95rem !important;
+  font-weight: normal !important;
+  text-align: left !important;
+  color: var(--text) !important;
+  line-height: 1.5 !important;
+  margin-top: 0.3rem !important;
+  margin-bottom: 0.3rem !important;
+}
+
+/* Inline Bold Text (e.g., Categories like Languages:) */
+p strong {
+  font-size: 0.95rem !important;
+  font-weight: 700 !important;
+  color: var(--primary) !important;
+}
+
+/* Specific styling rules for job history blocks */
+.job-date {
+  color: var(--secondary) !important;
+  font-size: 0.85rem !important;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem !important;
 }
 
 /* ==========================================================================
-   Typography & Core Layout Sections
+   Lists & Bullets
    ========================================================================== */
-
-/* Main Section Headings ONLY (e.g., SKILLS, EXPERIENCE, SUMMARY)
-   This targets paragraphs containing ONLY a strong tag at the root body level */
-body > p > strong:only-child {
-  display: block;
-  font-size: 1.2rem !important;
-  color: var(--primary);
-  border-bottom: 2px solid var(--primary) !important;
-  margin-top: 2.25rem;
-  margin-bottom: 1rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+ul {
+  padding-left: 1.25rem !important;
+  margin-top: 0.25rem !important;
+  margin-bottom: 1rem !important;
 }
 
-/* Base style for all standard text elements */
-p, li {
-  font-size: 1rem !important;
-  font-weight: normal !important;
-  text-align: left !important;
-  color: var(--text);
-  line-height: 1.6
+li {
+  margin-bottom: 0.35rem !important;
+  list-style-type: disc !important;
+}
+
+/* ==========================================================================
+   Media Queries
+   ========================================================================== */
+@media print {
+  html { background-color: #fff; }
+  body { margin: 0; padding: 0; box-shadow: none; max-width: 100%; font-size: 10pt; }
+  .section-header { margin-top: 1.25rem !important; page-break-after: avoid; }
+  li { page-break-inside: avoid; }
+}
+
+@media (max-width: 640px) {
+  body { padding: 1.5rem; margin: 1rem; }
+}

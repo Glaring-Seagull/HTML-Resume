@@ -98,17 +98,29 @@ def main():
         # Conversion via Pandoc (Linked to main.css)
         convert_docx_to_html(docx_path, OUTPUT_HTML_PATH)
 
-        # HTML Sanitization Only
+        # HTML Sanitization and Class Injection
         if os.path.exists(OUTPUT_HTML_PATH):
-            print("Refining HTML structure tags...")
+            print("Refining HTML structure and injecting semantic classes...")
             with open(OUTPUT_HTML_PATH, "r", encoding="utf-8") as f:
                 html_content = f.read()
 
-            # Clean out structural junk created by the converter
+            # Clean out structural blockquote junk
             html_content = re.sub(r'<blockquote>\s*<p>(.*?)</p>\s*</blockquote>', r'<p>\1</p>', html_content, flags=re.DOTALL)
             html_content = re.sub(r'<blockquote>\s*(<ul>.*?</ul>)\s*</blockquote>', r'\1', html_content, flags=re.DOTALL)
             html_content = re.sub(r'<li>\s*<blockquote>\s*<p>(.*?)</p>\s*</blockquote>\s*</li>', r'<li>\1</li>', html_content, flags=re.DOTALL)
             html_content = html_content.replace("<mark>", "").replace("</mark>", "")
+
+            # Inject semantic classes by matching text values
+            # Turn top-level titles into clean headers
+            html_content = html_content.replace("<p><strong>Summary</strong></p>", '<h2 class="section-header">Summary</h2>')
+            html_content = html_content.replace("<p><strong>Skills</strong></p>", '<h2 class="section-header">Skills</h2>')
+            
+            # Find date strings (e.g., "Mar 2025 – Present" or "Sep 2022 – Mar 2025") and tag them
+            html_content = re.sub(
+                r'<p><strong>([A-Z][a-z]{2}\s\d{4}\s?[–-]\s?(?:Present|[A-Z][a-z]{2}\s\d{4}))</strong></p>',
+                r'<p class="job-date"><strong>\1</strong></p>',
+                html_content
+            )
 
             with open(OUTPUT_HTML_PATH, "w", encoding="utf-8") as f:
                 f.write(html_content)
