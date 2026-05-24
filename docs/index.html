@@ -2,177 +2,129 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>temp_download</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mark Roe - Senior DevOps Engineer</title>
   <style>
+    :root {
+      --primary: #1e293b;
+      --secondary: #475569;
+      --accent: #2563eb;
+      --text: #334155;
+      --bg: #f8fafc;
+      --line: #e2e8f0;
+    }
+    
     html {
-      color: #1a1a1a;
-      background-color: #fdfdfd;
+      background-color: var(--bg);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      font-size: 15px;
+      line-height: 1.6;
+      color: var(--text);
     }
+
     body {
-      margin: 0 auto;
-      max-width: 36em;
-      padding-left: 50px;
-      padding-right: 50px;
-      padding-top: 50px;
-      padding-bottom: 50px;
-      hyphens: auto;
-      overflow-wrap: break-word;
-      text-rendering: optimizeLegibility;
-      font-kerning: normal;
+      margin: 2rem auto;
+      max-width: 50rem;
+      background: #ffffff;
+      padding: 3rem;
+      box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+      border-radius: 8px;
     }
-    @media (max-width: 600px) {
-      body {
-        font-size: 0.9em;
-        padding: 12px;
-      }
-      h1 {
-        font-size: 1.8em;
-      }
+
+    /* Header styling optimization */
+    p:first-of-type {
+      text-align: center;
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--primary);
+      margin-bottom: 0.25rem;
     }
+
+    p:first-of-type + p {
+      text-align: center;
+      margin-top: 0;
+      color: var(--secondary);
+      font-size: 0.95rem;
+      border-bottom: 2px solid var(--primary);
+      padding-bottom: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    p:first-of-type + p a {
+      color: var(--accent);
+      text-decoration: none;
+      margin: 0 0.5rem;
+    }
+    
+    p:first-of-type + p a:hover {
+      text-decoration: underline;
+    }
+
+    /* Document Sections */
+    p > strong:only-child {
+      display: block;
+      font-size: 1.25rem;
+      color: var(--primary);
+      border-bottom: 1px solid var(--line);
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* Skills block adjustment */
+    p strong {
+      color: var(--primary);
+    }
+
+    /* Job Titles & Subheadings */
+    p + p > strong:only-child {
+      border-bottom: none;
+      text-transform: none;
+      font-size: 1.1rem;
+      margin-top: 1rem;
+      margin-bottom: 0;
+    }
+
+    /* List formatting */
+    ul {
+      padding-left: 1.2rem;
+      margin-top: 0.5rem;
+    }
+
+    li {
+      margin-bottom: 0.4rem;
+    }
+
+    /* Print styling rules */
     @media print {
-      html {
-        background-color: white;
-      }
+      html { background-color: #fff; }
       body {
-        background-color: transparent;
-        color: black;
-        font-size: 12pt;
+        margin: 0;
+        padding: 0;
+        box-shadow: none;
+        max-width: 100%;
+        font-size: 11pt;
       }
-      p, h2, h3 {
-        orphans: 3;
-        widows: 3;
-      }
-      h2, h3, h4 {
+      p > strong:only-child {
+        margin-top: 1.5rem;
         page-break-after: avoid;
       }
+      li { page-break-inside: avoid; }
     }
-    p {
-      margin: 1em 0;
+
+    /* Mobile view styling */
+    @media (max-width: 640px) {
+      body { padding: 1.5rem; margin: 1rem; }
+      html { font-size: 14px; }
     }
-    a {
-      color: #1a1a1a;
-    }
-    a:visited {
-      color: #1a1a1a;
-    }
-    img {
-      max-width: 100%;
-    }
-    h1, h2, h3, h4, h5, h6 {
-      margin-top: 1.4em;
-    }
-    h5, h6 {
-      font-size: 1em;
-      font-style: italic;
-    }
-    h6 {
-      font-weight: normal;
-    }
-    ol, ul {
-      padding-left: 1.7em;
-      margin-top: 1em;
-    }
-    li > ol, li > ul {
-      margin-top: 0;
-    }
-    blockquote {
-      margin: 1em 0 1em 1.7em;
-      padding-left: 1em;
-      border-left: 2px solid #e6e6e6;
-      color: #606060;
-    }
-    code {
-      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
-      font-size: 85%;
-      margin: 0;
-      hyphens: manual;
-    }
-    pre {
-      margin: 1em 0;
-      overflow: auto;
-    }
-    pre code {
-      padding: 0;
-      overflow: visible;
-      overflow-wrap: normal;
-    }
-    .sourceCode {
-     background-color: transparent;
-     overflow: visible;
-    }
-    hr {
-      background-color: #1a1a1a;
-      border: none;
-      height: 1px;
-      margin: 1em 0;
-    }
-    table {
-      margin: 1em 0;
-      border-collapse: collapse;
-      width: 100%;
-      overflow-x: auto;
-      display: block;
-      font-variant-numeric: lining-nums tabular-nums;
-    }
-    table caption {
-      margin-bottom: 0.75em;
-    }
-    tbody {
-      margin-top: 0.5em;
-      border-top: 1px solid #1a1a1a;
-      border-bottom: 1px solid #1a1a1a;
-    }
-    th {
-      border-top: 1px solid #1a1a1a;
-      padding: 0.25em 0.5em 0.25em 0.5em;
-    }
-    td {
-      padding: 0.125em 0.5em 0.25em 0.5em;
-    }
-    header {
-      margin-bottom: 4em;
-      text-align: center;
-    }
-    #TOC li {
-      list-style: none;
-    }
-    #TOC ul {
-      padding-left: 1.3em;
-    }
-    #TOC > ul {
-      padding-left: 0;
-    }
-    #TOC a:not(:hover) {
-      text-decoration: none;
-    }
-    code{white-space: pre-wrap;}
-    span.smallcaps{font-variant: small-caps;}
-    div.columns{display: flex; gap: min(4vw, 1.5em);}
-    div.column{flex: auto; overflow-x: auto;}
-    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-    /* The extra [class] is a hack that increases specificity enough to
-       override a similar rule in reveal.js */
-    ul.task-list[class]{list-style: none;}
-    ul.task-list li input[type="checkbox"] {
-      font-size: inherit;
-      width: 0.8em;
-      margin: 0 0.8em 0.2em -1.6em;
-      vertical-align: middle;
-    }
-    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
   </style>
 </head>
 <body>
-<blockquote>
 <p>Mark Roe markroe45@yahoo.com 302-256-3249</p>
-</blockquote>
 <p>linkedin.com/in/mark-roe-458262aa
 https://github.com/Glaring-Seagull</p>
-<blockquote>
 <p><strong>Summary</strong></p>
-</blockquote>
 <p>Senior DevOps Engineer with 9+ years of experience building and
 scaling distributed systems, leading infrastructure modernization
 initiatives, and delivering resilient cloud-native platforms. Proven
@@ -194,126 +146,78 @@ NFS, GPFS, ZFS, S3</p>
 <p><strong>Collaboration:</strong> Jira, Confluence, Microsoft Teams</p>
 <p><strong>Sr DevOps Engineer</strong></p>
 <p><strong>M&amp;T Bank, Wilmington, DE</strong></p>
-<p><strong><mark>Mar 2025 – Present</mark></strong></p>
+<p><strong>Mar 2025 – Present</strong></p>
 <ul>
-<li><blockquote>
-<p>Collaborated with engineering leadership to evaluate, propose, and
+<li><p>Collaborated with engineering leadership to evaluate, propose, and
 advocate for infrastructure modernization initiatives across datacenter
-and cloud environments.</p>
-</blockquote></li>
-<li><blockquote>
-<p>Developed Ansible roles and collections for scalable IaC/CaC
-automation on RHEL and Windows servers.</p>
-</blockquote></li>
-<li><blockquote>
-<p>Supported migration of 20+ enterprise applications to Azure using
-Terraform Enterprise, improving deployment consistency and speed.</p>
-</blockquote></li>
-<li><blockquote>
-<p>Architected automated workflows to streamline datacenter migrations,
-reducing manual operations by 70%.</p>
-</blockquote></li>
-<li><blockquote>
-<p>Established repository and pipeline governance using GitLab SaaS,
-improving code quality and security compliance.</p>
-</blockquote></li>
-<li><blockquote>
-<p>Mentored engineers on IaC principles, CI/CD best practices, and
-cloud-native tooling.</p>
-</blockquote></li>
+and cloud environments.</p></li>
+<li><p>Developed Ansible roles and collections for scalable IaC/CaC
+automation on RHEL and Windows servers.</p></li>
+<li><p>Supported migration of 20+ enterprise applications to Azure using
+Terraform Enterprise, improving deployment consistency and speed.</p></li>
+<li><p>Architected automated workflows to streamline datacenter migrations,
+reducing manual operations by 70%.</p></li>
+<li><p>Established repository and pipeline governance using GitLab SaaS,
+improving code quality and security compliance.</p></li>
+<li><p>Mentored engineers on IaC principles, CI/CD best practices, and
+cloud-native tooling.</p></li>
 </ul>
 <p><strong>Systems Engineer</strong></p>
 <p><strong>Berkley Technology Services, Wilmington, DE</strong></p>
-<p><strong><mark>Sep 2022 – Mar 2025</mark></strong></p>
+<p><strong>Sep 2022 – Mar 2025</strong></p>
 <ul>
-<li><blockquote>
-<p>Designed and implemented automation services for Red Hat and AIX
+<li><p>Designed and implemented automation services for Red Hat and AIX
 platforms, improving deployment reliability and reducing remediation
-times.</p>
-</blockquote></li>
-<li><blockquote>
-<p>Led modernization of VM lifecycle management in VMware, introducing
-self-service provisioning and reducing delivery time by 40%.</p>
-</blockquote></li>
-<li><blockquote>
-<p>Migrated and re-architected Kubernetes clusters from on-prem Mirantis
+times.</p></li>
+<li><p>Led modernization of VM lifecycle management in VMware, introducing
+self-service provisioning and reducing delivery time by 40%.</p></li>
+<li><p>Migrated and re-architected Kubernetes clusters from on-prem Mirantis
 to Rafay, improving scalability and resilience while reducing licensing
-cost by 50% and operation cost by 15%.</p>
-</blockquote></li>
-<li><blockquote>
-<p>Championed company-wide adoption of Ansible Automation Platform,
-building reusable roles and collections to standardize operations.</p>
-</blockquote></li>
-<li><blockquote>
-<p>Migrated repositories from BitBucket to GitHub and implemented CI/CD
-pipelines using GitHub Actions.</p>
-</blockquote></li>
-<li><blockquote>
-<p>Introduced DevOps and SRE practices across Enterprise Infrastructure
-teams, aligning SLAs/SLOs and incident response processes.</p>
-</blockquote></li>
+cost by 50% and operation cost by 15%.</p></li>
+<li><p>Championed company-wide adoption of Ansible Automation Platform,
+building reusable roles and collections to standardize operations.</p></li>
+<li><p>Migrated repositories from BitBucket to GitHub and implemented CI/CD
+pipelines using GitHub Actions.</p></li>
+<li><p>Introduced DevOps and SRE practices across Enterprise Infrastructure
+teams, aligning SLAs/SLOs and incident response processes.</p></li>
 </ul>
 <p><strong>Systems Administrator/Information Security
 Officer</strong></p>
 <p><strong>Colonial School District, New Castle, DE</strong></p>
 <p><strong>Jan 2019 - Aug 2022</strong></p>
 <ul>
-<li><blockquote>
-<p>Administered mixed Linux, Windows, and FreeBSD environments,
-supporting over 10,000 devices across district operations.</p>
-</blockquote></li>
-<li><blockquote>
-<p>Led infrastructure migration from Hyper-V to Proxmox and AWS EC2,
-introducing IaC practices using Terraform and Ansible.</p>
-</blockquote></li>
-<li><blockquote>
-<p>Standardized all code in GitHub and built CI/CD pipelines using
-GitHub Actions for repeatable deployments.</p>
-</blockquote></li>
-<li><blockquote>
-<p>Served as Information Security Officer, ensuring state cybersecurity
-and Department of Education compliance.</p>
-</blockquote></li>
-<li><blockquote>
-<p>Supported remote work and distance learning rollout during COVID-19,
-scaling infrastructure for thousands of users.</p>
-</blockquote></li>
-<li><blockquote>
-<p>Managed JAMF MDM for Apple devices and Google Workspace for student
-Chromebook fleet.</p>
-</blockquote></li>
+<li><p>Administered mixed Linux, Windows, and FreeBSD environments,
+supporting over 10,000 devices across district operations.</p></li>
+<li><p>Led infrastructure migration from Hyper-V to Proxmox and AWS EC2,
+introducing IaC practices using Terraform and Ansible.</p></li>
+<li><p>Standardized all code in GitHub and built CI/CD pipelines using
+GitHub Actions for repeatable deployments.</p></li>
+<li><p>Served as Information Security Officer, ensuring state cybersecurity
+and Department of Education compliance.</p></li>
+<li><p>Supported remote work and distance learning rollout during COVID-19,
+scaling infrastructure for thousands of users.</p></li>
+<li><p>Managed JAMF MDM for Apple devices and Google Workspace for student
+Chromebook fleet.</p></li>
 </ul>
 <p><strong>Systems Administrator</strong></p>
 <p><strong>Brandywine Technology, Hockessin, DE</strong></p>
 <p><strong>Aug 2017 - Jan 2019</strong></p>
 <ul>
-<li><blockquote>
-<p>Maintained and secured mixed Windows and Linux environments,
-databases, and network services.</p>
-</blockquote></li>
-<li><blockquote>
-<p>Automated server management tasks with Bash and PowerShell, reducing
-routine maintenance effort.</p>
-</blockquote></li>
-<li><blockquote>
-<p>Supported user management and O365 administration.</p>
-</blockquote></li>
+<li><p>Maintained and secured mixed Windows and Linux environments,
+databases, and network services.</p></li>
+<li><p>Automated server management tasks with Bash and PowerShell, reducing
+routine maintenance effort.</p></li>
+<li><p>Supported user management and O365 administration.</p></li>
 </ul>
 <p><strong>Technology Intern</strong></p>
 <p><strong>Colonial School District, New Castle, DE</strong></p>
 <p><strong>Nov 2016 - Jan 2017</strong></p>
 <ul>
-<li><blockquote>
-<p>Provided hardware and software support for Windows and macOS
-systems.</p>
-</blockquote></li>
-<li><blockquote>
-<p>Documented procedures and created training materials in Jitbit
-knowledge base.</p>
-</blockquote></li>
-<li><blockquote>
-<p>Assisted in asset management and onboarding using SnipeIT CMDB.</p>
-</blockquote></li>
+<li><p>Provided hardware and software support for Windows and macOS
+systems.</p></li>
+<li><p>Documented procedures and created training materials in Jitbit
+knowledge base.</p></li>
+<li><p>Assisted in asset management and onboarding using SnipeIT CMDB.</p></li>
 </ul>
 </body>
 </html>
