@@ -1,3 +1,6 @@
+/* ==========================================================================
+   Variables & Root Setup
+   ========================================================================== */
 :root {
   --primary: #1e293b;
   --secondary: #475569;
@@ -24,6 +27,9 @@ body {
   border-radius: 8px;
 }
 
+/* ==========================================================================
+   Header & Contact Section
+   ========================================================================== */
 body > p:first-of-type {
   text-align: center !important;
   font-size: 2rem !important;
@@ -48,57 +54,31 @@ body > p:first-of-type + p a {
   margin: 0 0.5rem;
 }
 
+body > p:first-of-type + p a:hover {
+  text-decoration: underline;
+}
+
+/* ==========================================================================
+   Typography & Core Layout Sections
+   ========================================================================== */
+
+/* Main Section Headings ONLY (e.g., SKILLS, EXPERIENCE, SUMMARY)
+   This targets paragraphs containing ONLY a strong tag at the root body level */
+body > p > strong:only-child {
+  display: block;
+  font-size: 1.2rem !important;
+  color: var(--primary);
+  border-bottom: 2px solid var(--primary) !important;
+  margin-top: 2.25rem;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Base style for all standard text elements */
 p, li {
   font-size: 1rem !important;
   font-weight: normal !important;
   text-align: left !important;
   color: var(--text);
-  line-height: 1.6;
-}
-
-p > strong:only-child {
-  display: block;
-  font-size: 1.2rem !important;
-  color: var(--primary);
-  border-bottom: 1px solid var(--line);
-  margin-top: 2rem;
-  margin-bottom: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-p strong {
-  color: var(--primary);
-}
-
-ul {
-  padding-left: 1.5rem;
-  margin-top: 0.4rem;
-  margin-bottom: 1rem;
-}
-
-li {
-  margin-bottom: 0.5rem;
-  list-style-type: disc;
-}
-
-@media print {
-  html { background-color: #fff; }
-  body {
-    margin: 0;
-    padding: 0;
-    box-shadow: none;
-    max-width: 100%;
-    font-size: 10.5pt;
-  }
-  p > strong:only-child {
-    margin-top: 1.5rem;
-    page-break-after: avoid;
-  }
-  li { page-break-inside: avoid; }
-}
-
-@media (max-width: 640px) {
-  body { padding: 1.5rem; margin: 1rem; }
-  html { font-size: 14px; }
-}
+  line-height: 1.6
