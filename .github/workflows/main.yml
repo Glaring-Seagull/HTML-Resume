@@ -29,18 +29,18 @@ jobs:
 
     - name: Install Dependencies
       run: |
-        # Install Google API client libraries
         pip install google-api-python-client google-auth-httplib2 google-auth-oauthlib
-        # Install Pandoc and necessary build tools to handle potential permission errors
         sudo apt-get update
         sudo apt-get install -y pandoc build-essential
 
     - name: Generate Resume HTML
+      env:
+        GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+        GOOGLE_DOC_FILE_ID: ${{ secrets.GOOGLE_DOC_FILE_ID }}
       run: python generate_resume.py
       
     - name: Commit and Create Pull Request
       env:
-        # Give the GitHub CLI tool permission to talk back to your repo
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         if [ ! -f "docs/index.html" ]; then
@@ -48,31 +48,30 @@ jobs:
             exit 1
         fi
 
-        # 1. Set up a dummy bot identity for the commit history
+        # Set up Git bot identity
         git config --global user.name "github-actions[bot]"
         git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
-        # Check if the generated file content differs from the last committed version
+        # Check for changes
         if git diff --exit-code docs/index.html; then
             echo "docs/index.html has not changed. Skipping commit and PR creation."
         else
             echo "docs/index.html has changed. Creating branch, committing, and opening PR."
             
-            # 2. Create a temporary branch for the changes
             BRANCH_NAME="automated-resume-update-${{ github.run_id }}"
             git checkout -b $BRANCH_NAME
             
-            # 3. Add and commit the updated file
             git add docs/index.html
             git commit -m "Automated resume update from Google Doc"
 
-            # 4. Push the changes up to GitHub
             git push origin HEAD:$BRANCH_NAME
             
-            # 5. Create the PR completely headlessly (No --web flag)
+            # Give the GitHub backend 2 seconds to register the branch commit
+            sleep 2
+            
+            # Create headless PR using fill parameters to bypass the GraphQL SHA bug
             gh pr create \
               --title "Automated Resume Update" \
               --body "Automated update of the resume from the Google Doc via cron schedule." \
-              --head "$BRANCH_NAME" \
-              --base "main"
+              --fill
         fi
