@@ -3,11 +3,11 @@ import subprocess
 from googleapiclient.discovery import build
 from google.oauth2.service_account import Credentials
 from google.auth.transport.requests import Request
+from googleapiclient.http import MediaIoBaseDownload
 import io
-import json  # Add this import at the top of your file!
+import json
 
 # --- Configuration ---
-# Update this variable name to reflect it's the raw JSON text now
 RAW_SERVICE_ACCOUNT_JSON = os.environ.get("GOOGLE_SERVICE_ACCOUNT_JSON")
 SPREADSHEET_ID = os.environ.get("GOOGLE_DOC_FILE_ID")
 OUTPUT_HTML_PATH = "docs/index.html"
@@ -38,22 +38,37 @@ def get_drive_service():
     return service
 
 def download_google_doc(service, file_id):
-    """Downloads the Google Doc file content."""
+    """Downloads the Google Doc file content by exporting it to DOCX format."""
     print("Downloading Google Doc...")
-    # Exporting as native format is required for download
-    request = service.files().get(fileId=file_id).execute()
-    file_data = request.get('content')
-
-    if not file_data:
-        raise Exception("Failed to retrieve file content from Google Drive.")
-
-    # The downloaded content needs to be saved to a temporary file path
-    temp_docx_path = "temp_download.docx"
-    with open(temp_docx_path, "wb") as f:
-        f.write(file_data)
     
-    print(f"Successfully downloaded document to {temp_docx_path}")
-    return temp_docx_path
+    try:
+        # 1. Prepare the export request (converting Google Doc to DOCX)
+        request = service.files().export_media(
+            fileId=file_id,
+            mimeType='application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+        )
+        
+        # 2. Use io.BytesIO to catch the stream chunks
+        fh = io.BytesIO()
+        downloader = MediaIoBaseDownload(fh, request)
+        done = False
+        
+        while not done:
+            status, done = downloader.next_chunk()
+            if status:
+                print(f"Download progress: {int(status.progress() * 100)}%")
+
+        # 3. Save the binary stream data to disk
+        temp_docx_path = "temp_download.docx"
+        with open(temp_docx_path, "wb") as f:
+            f.write(fh.getvalue())
+        
+        print(f"Successfully downloaded and exported document to {temp_docx_path}")
+        return temp_docx_path
+
+    except Exception as e:
+        print(f"Google Drive API error details: {e}")
+        raise Exception(f"Failed to retrieve file content from Google Drive due to: {e}")
 
 def convert_docx_to_html(docx_path, output_path):
     """Converts a DOCX file to HTML using Pandoc."""

@@ -1,23 +1,19 @@
 name: Automated Resume Generation
 
 on:
-  # Trigger on a specific schedule (e.g., first day of every month at 3 AM UTC)
   schedule:
     - cron: '0 0 1 * *' 
-  workflow_dispatch: # Allows manual triggering for testing
+  workflow_dispatch:
     inputs:
       trigger:
         description: 'Manual run trigger'
         required: true
         type: boolean
-  # Add other triggers if needed, e.g., push to main
 
 jobs:
   generate_resume:
     runs-on: ubuntu-latest
-    
     environment: master
-    # Define environment variables using GitHub Secrets
     env:
       GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
       GOOGLE_DOC_FILE_ID: ${{ secrets.GOOGLE_DOC_FILE_ID }}
