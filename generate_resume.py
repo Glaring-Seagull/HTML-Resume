@@ -18,14 +18,12 @@ def get_drive_service():
         raise ValueError("Missing required environment variables: GOOGLE_SERVICE_ACCOUNT_JSON or GOOGLE_DOC_FILE_ID.")
 
     try:
-        # Parse the raw string directly into a Python dictionary
         info = json.loads(RAW_SERVICE_ACCOUNT_JSON)
         
-        # Use from_service_account_info instead of from_service_account_file
         creds = Credentials.from_service_account_info(
             info, 
             scopes=[
-                'https://www.googleapis.com/auth/drive.metadata.readonly', 
+                'https://www.googleapis.com/auth/drive.readonly', 
                 'https://www.googleapis.com/auth/documents.readonly'
             ]
         )
