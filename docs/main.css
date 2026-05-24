@@ -1,99 +1,156 @@
-* {
-    max-width: 850px;
-    margin: auto;
-  }
-  
-  
-  /*body {
-      min-width: 500px;
-  }*/
-  
-  div {
-    border-radius: 5px;
-    font-family: arial;
-    font-size: 14px;
-    
-    
-  }
-  ul {
-    list-style-type: circle;
-  }
-  #header {
-    min-height: 10px;
-    height: 5%;
-    width: 100%;
-    background-color: #0ecccc;
-    position: fixed;
-    z-index: 1;
-  }
-  
-  #title {
-    margin-left: 3%;
-  }
-  
-  #footer {
-    min-height: 10px;
-    height: 5%;
-    width: 100%;
-    background-color: #00cccc;
-    clear: both;
-    position: fixed;
-    bottom: 0;
-  }
-  
-  .stuff {
-    display: inline-block;
-    margin-top: 20px;
-    margin-left: 55px;
-    width: 75%;
-    height: 1000px;
-  }
-  
-  p,
-  li {
-    font-family: 'Cormorant Garamond';
-  }
-  
-  .head {
-    font-size: 20px;
-    font-family: arial;
-    font-weight: bold
-  }
-  .subhead{
-    font-size: 15px;
-    font-family: arial;
-    font-weight: bold
-  }
-  .string-link{
-    font-size: 15px;
-    font-family: arial;
-    font-weight: bold
-  }
-  .date-range{
-    font-size: 14px;
-    font-family: arial;
-    font-weight: bold
-  }
-  #name {
-    font-family: Sacramento;
-    float: right;
-    margin-top: 10px;
-    margin-right: 4%;
-  }
-  
-  a {
-    color: black;
+/* ============================================================= */
+/* Modern Resume CSS - Overhaul for better aesthetics */
+/* ============================================================= */
+
+/* Global Reset and Typography */
+body {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+h1, h2, h3, h4, h5 {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    color: #1a1a1a;
+    margin-top: 0.8em;
+    margin-bottom: 0.4em;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: 0.5px;
+}
+
+/* Layout Containers */
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Header and Contact Info */
+header {
+    text-align: center;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
+
+h1 {
+    font-size: 2.5em;
+    margin-bottom: 5px;
+    font-weight: 900;
+}
+
+/* Summary/Professional Headline */
+.summary, .introduction {
+    padding: 10px 0;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Section Headings */
+h2 {
+    font-size: 1.5em;
+    text-transform: uppercase;
+    border-bottom: 3px solid #3498db; /* Accent color */
+    padding-bottom: 3px;
+    margin-top: 1.5em;
+    margin-bottom: 0.8em;
+}
+
+/* Lists (Skills, Experience) */
+ul {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+}
+
+li {
+    margin-bottom: 8px;
+    padding-left: 1.5em;
+    position: relative;
+}
+
+li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: #3498db;
+}
+
+/* Experience/Job Roles (using semantic blocks) */
+.job-entry {
+    margin-bottom: 20px;
+}
+
+.job-title {
+    font-weight: 700;
+    display: block;
+    font-size: 1.1em;
+}
+
+.company-details {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9em;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+.job-description {
+    margin-top: 5px;
+    padding-left: 15px;
+    border-left: 2px solid #eee;
+}
+
+.job-description li {
+    list-style: disc;
+    padding-left: 0;
+    margin-left: 15px;
+    font-size: 0.95em;
+}
+.job-description li::before {
+    content: none; /* Overriding default list style for description bullets */
+}
+
+/* Simple Paragraphs */
+p {
+    margin-bottom: 1em;
+    color: #555;
+}
+
+/* Links */
+a {
+    color: #3498db;
     text-decoration: none;
-  }
-  
-  @media only screen and (max-width: 600px) {
-    .left,
-    .right {
-      display: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Print and Media Queries (Keep basic print compatibility) */
+@media print {
+    body {
+        color: black !important;
+        background-color: transparent;
     }
-    .stuff {
-      background: #e0eeee;
-      width: 100%;
-      margin-left: 10px;
+    /* Ensure absolute layout elements are positioned correctly for print */
+    .container {
+        max-width: 100%;
+        padding: 0;
     }
-  }
+    header {
+        border-bottom: none;
+        padding-bottom: 0;
+    }
+    h2 {
+        border-bottom: none;
+        padding-bottom: 0;
+    }
+    .job-description {
+        border-left: none;
+        padding-left: 0;
+    }
+}
