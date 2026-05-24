@@ -137,7 +137,7 @@ def main():
       background-color: var(--bg);
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
       font-size: 15px;
-      line-height: 1.6;
+      line-height: 1.5;
       color: var(--text);
     }
 
@@ -146,76 +146,73 @@ def main():
       max-width: 50rem;
       background: #ffffff;
       padding: 3rem;
-      box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+      box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05);
       border-radius: 8px;
     }
 
-    /* Header styling optimization */
-    p:first-of-type {
-      text-align: center;
-      font-size: 1.8rem;
-      font-weight: 800;
-      color: var(--primary);
-      margin-bottom: 0.25rem;
+    /* Target ONLY the real contact header elements inside the top body wrapper */
+    body > p:first-of-type {
+      text-align: center !important;
+      font-size: 2rem !important;
+      font-weight: 800 !important;
+      color: var(--primary) !important;
+      margin-bottom: 0.25rem !important;
     }
 
-    p:first-of-type + p {
-      text-align: center;
-      margin-top: 0;
-      color: var(--secondary);
-      font-size: 0.95rem;
-      border-bottom: 2px solid var(--primary);
-      padding-bottom: 1.5rem;
-      margin-bottom: 2rem;
+    body > p:first-of-type + p {
+      text-align: center !important;
+      margin-top: 0 !important;
+      color: var(--secondary) !important;
+      font-size: 0.95rem !important;
+      border-bottom: 2px solid var(--primary) !important;
+      padding-bottom: 1.5rem !important;
+      margin-bottom: 2rem !important;
     }
 
-    p:first-of-type + p a {
+    body > p:first-of-type + p a {
       color: var(--accent);
       text-decoration: none;
       margin: 0 0.5rem;
     }
-    
-    p:first-of-type + p a:hover {
-      text-decoration: underline;
+
+    /* FORCE all normal paragraph blocks and lists to remain normal baseline sizes */
+    p, li {
+      font-size: 1rem !important;
+      font-weight: normal !important;
+      text-align: left !important;
+      color: var(--text);
+      line-height: 1.6;
     }
 
-    /* Document Sections */
+    /* Section Headings (Summary, Skills, Experience) */
     p > strong:only-child {
       display: block;
-      font-size: 1.25rem;
+      font-size: 1.2rem !important;
       color: var(--primary);
       border-bottom: 1px solid var(--line);
       margin-top: 2rem;
-      margin-bottom: 1rem;
+      margin-bottom: 0.75rem;
       text-transform: uppercase;
       letter-spacing: 0.05em;
     }
 
-    /* Skills block adjustment */
+    /* Job Titles and Companies */
     p strong {
       color: var(--primary);
     }
 
-    /* Job Titles & Subheadings */
-    p + p > strong:only-child {
-      border-bottom: none;
-      text-transform: none;
-      font-size: 1.1rem;
-      margin-top: 1rem;
-      margin-bottom: 0;
-    }
-
-    /* List formatting */
+    /* Structure Lists cleanly */
     ul {
-      padding-left: 1.2rem;
-      margin-top: 0.5rem;
+      padding-left: 1.5rem;
+      margin-top: 0.4rem;
+      margin-bottom: 1rem;
     }
 
     li {
-      margin-bottom: 0.4rem;
+      margin-bottom: 0.5rem;
+      list-style-type: disc;
     }
 
-    /* Print styling rules */
     @media print {
       html { background-color: #fff; }
       body {
@@ -223,7 +220,7 @@ def main():
         padding: 0;
         box-shadow: none;
         max-width: 100%;
-        font-size: 11pt;
+        font-size: 10.5pt;
       }
       p > strong:only-child {
         margin-top: 1.5rem;
@@ -232,7 +229,6 @@ def main():
       li { page-break-inside: avoid; }
     }
 
-    /* Mobile view styling */
     @media (max-width: 640px) {
       body { padding: 1.5rem; margin: 1rem; }
       html { font-size: 14px; }
