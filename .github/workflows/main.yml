@@ -39,24 +39,40 @@ jobs:
       run: python generate_resume.py
       
     - name: Commit and Create Pull Request
+      env:
+        # Give the GitHub CLI tool permission to talk back to your repo
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         if [ ! -f "docs/index.html" ]; then
             echo "Error: docs/index.html was not generated. Cannot create PR."
             exit 1
         fi
 
+        # 1. Set up a dummy bot identity for the commit history
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
         # Check if the generated file content differs from the last committed version
         if git diff --exit-code docs/index.html; then
             echo "docs/index.html has not changed. Skipping commit and PR creation."
         else
             echo "docs/index.html has changed. Creating branch, committing, and opening PR."
-            # 1. Create a temporary branch for the changes
-            git checkout -b automated-resume-update-${{ github.run_id }}
             
-            # 2. Add and commit the updated file
+            # 2. Create a temporary branch for the changes
+            BRANCH_NAME="automated-resume-update-${{ github.run_id }}"
+            git checkout -b $BRANCH_NAME
+            
+            # 3. Add and commit the updated file
             git add docs/index.html
             git commit -m "Automated resume update from Google Doc"
 
-            # 3. Push the changes to the remote and create a PR
-            git push origin HEAD:automated-resume-update-${{ github.run_id }}
-            gh pr create --title "Automated Resume Update" --body "Automated update of the resume from the Google Doc via cron schedule." --web
+            # 4. Push the changes up to GitHub
+            git push origin HEAD:$BRANCH_NAME
+            
+            # 5. Create the PR completely headlessly (No --web flag)
+            gh pr create \
+              --title "Automated Resume Update" \
+              --body "Automated update of the resume from the Google Doc via cron schedule." \
+              --head "$BRANCH_NAME" \
+              --base "main"
+        fi
