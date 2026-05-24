@@ -9,12 +9,12 @@ import json
 
 # --- Configuration ---
 RAW_SERVICE_ACCOUNT_JSON = os.environ.get("GOOGLE_SERVICE_ACCOUNT_JSON")
-SPREADSHEET_ID = os.environ.get("GOOGLE_DOC_FILE_ID")
+GOOGLE_DOC_ID = os.environ.get("GOOGLE_DOC_FILE_ID")
 OUTPUT_HTML_PATH = "docs/index.html"
 
 def get_drive_service():
     """Authenticates and returns the Google Drive service object."""
-    if not RAW_SERVICE_ACCOUNT_JSON or not SPREADSHEET_ID:
+    if not RAW_SERVICE_ACCOUNT_JSON or not GOOGLE_DOC_ID:
         raise ValueError("Missing required environment variables: GOOGLE_SERVICE_ACCOUNT_JSON or GOOGLE_DOC_FILE_ID.")
 
     try:
@@ -97,7 +97,7 @@ def main():
     try:
         # 1. Authentication and Download
         drive_service = get_drive_service()
-        docx_path = download_google_doc(drive_service, SPREADSHEET_ID)
+        docx_path = download_google_doc(drive_service, GOOGLE_DOC_ID)
 
         # 2. Conversion
         convert_docx_to_html(docx_path, OUTPUT_HTML_PATH)
