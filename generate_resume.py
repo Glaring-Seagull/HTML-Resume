@@ -73,175 +73,46 @@ def download_google_doc(service, file_id):
         raise Exception(f"Failed to retrieve file content from Google Drive due to: {e}")
 
 def convert_docx_to_html(docx_path, output_path):
-    """Converts a DOCX file to HTML using Pandoc."""
+    """Converts a DOCX file to HTML using Pandoc linked to an external stylesheet."""
     print("Starting Pandoc conversion...")
     try:
         subprocess.run([
             "pandoc", 
             "-s", 
             docx_path, 
-            "-t", 
-            "html", 
-            "-o", 
-            output_path
+            "-t", "html", 
+            "--css", "main.css", # <-- Links your asset file link here
+            "-o", output_path
         ], check=True, capture_output=True)
         print(f"Conversion successful. HTML saved to {output_path}")
     except subprocess.CalledProcessError as e:
-        print("Pandoc conversion failed. Check dependencies and document format.")
-        print(f"STDOUT: {e.stdout.decode()}")
-        print(f"STDERR: {e.stderr.decode()}")
-        raise RuntimeError("Pandoc conversion failed.")
-    except FileNotFoundError:
-        print("Error: 'pandoc' command not found. Please ensure Pandoc is installed.")
-        raise
+        ...
 
 def main():
     """Main orchestration function."""
     try:
+
         drive_service = get_drive_service()
         docx_path = download_google_doc(drive_service, GOOGLE_DOC_ID)
 
+        # Conversion via Pandoc (Linked to main.css)
         convert_docx_to_html(docx_path, OUTPUT_HTML_PATH)
 
-        # HTML Sanitization and Custom CSS Injection
+        # HTML Sanitization Only
         if os.path.exists(OUTPUT_HTML_PATH):
-            print("Refining HTML structure and injecting modern styling...")
+            print("Refining HTML structure tags...")
             with open(OUTPUT_HTML_PATH, "r", encoding="utf-8") as f:
                 html_content = f.read()
 
             # Clean out structural junk created by the converter
-            # Strip blockquotes wrapped around text or lists
             html_content = re.sub(r'<blockquote>\s*<p>(.*?)</p>\s*</blockquote>', r'<p>\1</p>', html_content, flags=re.DOTALL)
             html_content = re.sub(r'<blockquote>\s*(<ul>.*?</ul>)\s*</blockquote>', r'\1', html_content, flags=re.DOTALL)
             html_content = re.sub(r'<li>\s*<blockquote>\s*<p>(.*?)</p>\s*</blockquote>\s*</li>', r'<li>\1</li>', html_content, flags=re.DOTALL)
-            
-            # Strip out highlighting mark tags if any exist
             html_content = html_content.replace("<mark>", "").replace("</mark>", "")
-
-            # Inject styles
-            modern_head = """<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mark Roe - Senior DevOps Engineer</title>
-  <style>
-    :root {
-      --primary: #1e293b;
-      --secondary: #475569;
-      --accent: #2563eb;
-      --text: #334155;
-      --bg: #f8fafc;
-      --line: #e2e8f0;
-    }
-    
-    html {
-      background-color: var(--bg);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-      font-size: 15px;
-      line-height: 1.5;
-      color: var(--text);
-    }
-
-    body {
-      margin: 2rem auto;
-      max-width: 50rem;
-      background: #ffffff;
-      padding: 3rem;
-      box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05);
-      border-radius: 8px;
-    }
-
-    /* Target ONLY the real contact header elements inside the top body wrapper */
-    body > p:first-of-type {
-      text-align: center !important;
-      font-size: 2rem !important;
-      font-weight: 800 !important;
-      color: var(--primary) !important;
-      margin-bottom: 0.25rem !important;
-    }
-
-    body > p:first-of-type + p {
-      text-align: center !important;
-      margin-top: 0 !important;
-      color: var(--secondary) !important;
-      font-size: 0.95rem !important;
-      border-bottom: 2px solid var(--primary) !important;
-      padding-bottom: 1.5rem !important;
-      margin-bottom: 2rem !important;
-    }
-
-    body > p:first-of-type + p a {
-      color: var(--accent);
-      text-decoration: none;
-      margin: 0 0.5rem;
-    }
-
-    /* FORCE all normal paragraph blocks and lists to remain normal baseline sizes */
-    p, li {
-      font-size: 1rem !important;
-      font-weight: normal !important;
-      text-align: left !important;
-      color: var(--text);
-      line-height: 1.6;
-    }
-
-    /* Section Headings (Summary, Skills, Experience) */
-    p > strong:only-child {
-      display: block;
-      font-size: 1.2rem !important;
-      color: var(--primary);
-      border-bottom: 1px solid var(--line);
-      margin-top: 2rem;
-      margin-bottom: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-
-    /* Job Titles and Companies */
-    p strong {
-      color: var(--primary);
-    }
-
-    /* Structure Lists cleanly */
-    ul {
-      padding-left: 1.5rem;
-      margin-top: 0.4rem;
-      margin-bottom: 1rem;
-    }
-
-    li {
-      margin-bottom: 0.5rem;
-      list-style-type: disc;
-    }
-
-    @media print {
-      html { background-color: #fff; }
-      body {
-        margin: 0;
-        padding: 0;
-        box-shadow: none;
-        max-width: 100%;
-        font-size: 10.5pt;
-      }
-      p > strong:only-child {
-        margin-top: 1.5rem;
-        page-break-after: avoid;
-      }
-      li { page-break-inside: avoid; }
-    }
-
-    @media (max-width: 640px) {
-      body { padding: 1.5rem; margin: 1rem; }
-      html { font-size: 14px; }
-    }
-  </style>
-</head>"""
-
-
-            html_content = re.sub(r'<head>.*?</head>', modern_head, html_content, flags=re.DOTALL)
 
             with open(OUTPUT_HTML_PATH, "w", encoding="utf-8") as f:
                 f.write(html_content)
-            print("HTML beautifully polished and saved.")
+            print("HTML successfully structured.")
 
 
         if os.path.exists(docx_path):
